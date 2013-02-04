@@ -32,6 +32,8 @@ module ActionDispatch
         @used    = Set.new(discard)
         @closed  = false
         @now     = nil
+
+        flashes ||= {} # an explicit nil does not get replaced with a default argument
         flashes.each do |k, v|
           self[k] = v
         end
