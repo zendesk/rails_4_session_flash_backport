@@ -25,7 +25,7 @@ module ActionDispatch
 
       def to_session_value
         return nil if empty?
-        {'discard' => @used.to_a, 'flashes' => dup}
+        {'discard' => @used.to_a, 'flashes' => Hash[to_a]}
       end
 
       def initialize(flashes = {}, discard = []) #:nodoc:
