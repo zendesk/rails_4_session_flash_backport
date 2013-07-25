@@ -1,5 +1,8 @@
 require 'action_dispatch'
+require 'action_pack/version'
 require 'rails_4_session_flash_backport/rails3/flash_hash'
+
+raise "Wrong version" if ActionPack::VERSION::MAJOR != 3
 
 describe ActionDispatch::Flash::FlashHash, "hax" do
 
@@ -10,6 +13,8 @@ describe ActionDispatch::Flash::FlashHash, "hax" do
   let(:rails_4_style)     { {'flashes' => {:notice => "I'm a notice", :error => "I'm an error"}, 'discard' => [:notice]} }
   let(:rails_2_marshaled) { "\x04\bIC:'ActionController::Flash::FlashHash{\a:\vnoticeI\"\x11I'm a notice\x06:\x06ET:\nerrorI\"\x11I'm an error\x06;\aT\x06:\n@used{\a;\x06T;\bF" }
   let(:rails_2_vanilla) { Marshal.load(rails_2_marshaled) }
+  let(:rails3_now_marshaled) { "\x04\bo:$ActionDispatch::Flash::FlashNow\x06:\v@flasho:%ActionDispatch::Flash::FlashHash\t:\n@usedo:\bSet\x06:\n@hash{\x06:\vnoticeT:\f@closedF:\r@flashes{\a;\vI\"\x11I'm a notice\x06:\x06EF:\nerrorI\"\x11I'm an error\x06;\x0EF:\t@now0" }
+  let(:rails3_now_vanilla) { Marshal.load(rails3_now_marshaled) }
 
   it "happily unmarshals a Rails 2 session without exploding" do
     Marshal.load(rails_2_marshaled).should be_a(ActionController::Flash::FlashHash)
@@ -35,6 +40,10 @@ describe ActionDispatch::Flash::FlashHash, "hax" do
 
     it "decodes rails 4 style to a FlashHash" do
       this_is_the_flash_hash_were_looking_for(ActionDispatch::Flash::FlashHash.from_session_value(rails_4_style))
+    end
+
+    it "decodes rails 3 style flash now" do
+      this_is_the_flash_hash_were_looking_for(ActionDispatch::Flash::FlashHash.from_session_value(rails3_now_vanilla.flash))
     end
   end
 

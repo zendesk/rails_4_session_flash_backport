@@ -76,5 +76,10 @@ module ActionDispatch
         {}
       end
     end
+
+    FlashNow = ActionController::Flash::FlashNow
+    FlashNow.class_eval do
+      attr_accessor :flash
+    end
   end
 end
