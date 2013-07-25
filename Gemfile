@@ -7,4 +7,5 @@ group :development do
   gem "rspec"
   gem "actionpack", ENV["ACTIONPACK_VERSION"] || "3.2.9"
   gem "pry"
+  gem "rake"
 end
