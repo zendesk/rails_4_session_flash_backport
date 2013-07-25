@@ -1,5 +1,8 @@
 require 'action_controller'
+require 'action_pack/version'
 require 'rails_4_session_flash_backport/rails2/flash_hash'
+
+raise "Wrong version" if ActionPack::VERSION::MAJOR != 2
 
 describe ActionController::Flash::FlashHash, "hax" do
 

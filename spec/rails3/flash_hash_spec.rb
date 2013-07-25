@@ -1,5 +1,8 @@
 require 'action_dispatch'
+require 'action_pack/version'
 require 'rails_4_session_flash_backport/rails3/flash_hash'
+
+raise "Wrong version" if ActionPack::VERSION::MAJOR != 3
 
 describe ActionDispatch::Flash::FlashHash, "hax" do
 
