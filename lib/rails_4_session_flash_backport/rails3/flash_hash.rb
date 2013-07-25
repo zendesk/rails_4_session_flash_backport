@@ -15,7 +15,7 @@ module ActionDispatch
         when ::ActionController::Flash::FlashHash # Rails 2.x
           new(value, value.instance_variable_get(:@used).select{|a,b| b}.keys)
         when ::ActionDispatch::Flash::FlashHash # Rails 3.1, 3.2
-          new(value.instance_variable_get(:@flashes), value.instance_variable_get(:@used))
+          new(value.instance_variable_get(:@flashes) || value.to_hash, value.instance_variable_get(:@used))
         when Hash # Rails 4.0, we backported to 2.3 too
           new(value['flashes'], value['discard'])
         else
@@ -25,13 +25,13 @@ module ActionDispatch
 
       def to_session_value
         return nil if empty?
-        {'discard' => @used.to_a, 'flashes' => @flashes}
+        {'discard' => @used.to_a, 'flashes' => Hash[to_a]}
       end
 
       def initialize(flashes = {}, discard = []) #:nodoc:
+        replace(flashes || {})
         @used    = Set.new(discard)
         @closed  = false
-        @flashes = flashes
         @now     = nil
       end
 
