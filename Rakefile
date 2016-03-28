@@ -2,9 +2,9 @@ require "bundler/gem_tasks"
 
 namespace :spec do
   task :rails3 do
-    system "export ACTIONPACK_VERSION=3.2.9 && bundle check > /dev/null || bundle update"
+    system "export ACTIONPACK_VERSION=3.2.22.2 && bundle check > /dev/null || bundle update"
     puts "Running Rails 3 specs"
-    system "export ACTIONPACK_VERSION=3.2.9 && bundle exec rspec --color spec/rails3"
+    system "export ACTIONPACK_VERSION=3.2.22.2 && bundle exec rspec --color spec/rails3"
     puts ""
   end
 
